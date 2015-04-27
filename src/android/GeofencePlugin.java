@@ -12,6 +12,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 public class GeofencePlugin extends CordovaPlugin {
@@ -71,6 +73,26 @@ public class GeofencePlugin extends CordovaPlugin {
         }
         return true;
 
+    }
+
+    /**
+     * Called when the activity receives a new intent.
+     */
+    @Override
+    public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        Bundle bundle = intent.getExtras();
+        if(bundle != null) {
+            String data = bundle.getString("geofence.notification.data");
+            String js = "setTimeout('geofence.receiveData(" + data + ")',0)";
+
+            if (webView == null) {
+                Log.d(TAG, "Webview is null");
+            } else {
+                webView.sendJavascript(js);
+            }
+        }
     }
 
     private GeoNotification parseFromJSONObject(JSONObject object) {
