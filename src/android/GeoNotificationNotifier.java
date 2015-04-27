@@ -40,6 +40,10 @@ public class GeoNotificationNotifier {
             if (notification.data != null) {
                 resultIntent.putExtra("geofence.notification.data", notification.getDataJson());
             }
+
+            PendingIntent resultPendingIntent = PendingIntent.getActivity(
+                context, 0, resultIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+            /*
             // The stack builder object will contain an artificial back stack
             // for the
             // started Activity.
@@ -52,6 +56,7 @@ public class GeoNotificationNotifier {
             stackBuilder.addNextIntent(resultIntent);
             PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
                     0, PendingIntent.FLAG_UPDATE_CURRENT);
+            */
             mBuilder.setContentIntent(resultPendingIntent);
         }
         beepHelper.startTone("beep_beep_beep");
